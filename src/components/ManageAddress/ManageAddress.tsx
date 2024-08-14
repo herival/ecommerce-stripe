@@ -18,11 +18,12 @@ import { getUserId } from '../../redux/selectors/selectors';
 
 
 interface ManageAddressProps {
-
+  checkout?: boolean
+  updateAddresses?: (data: Address[])=>void
 }
 
 
-const ManageAddress: FC<ManageAddressProps> = () => {
+const ManageAddress: FC<ManageAddressProps> = ({checkout, updateAddresses}) => {
 
 
 
@@ -40,6 +41,9 @@ const ManageAddress: FC<ManageAddressProps> = () => {
       const data: RequestResponse = await searchDatas("address", query)
       if (data.isSuccess) {
         setAddresses((data.results as Address[]))
+        if(updateAddresses){
+          updateAddresses((data.results as Address[]))
+        }
         setLoading(true)
       }
     }
@@ -88,10 +92,10 @@ const ManageAddress: FC<ManageAddressProps> = () => {
             <a href="#" className="btn btn-fill-out"
               onClick={() => setOpenForm(true)}
             >
-              Add New
+              Add New Address
             </a>
             {
-              addresses.length ?
+              addresses.length && !checkout?
               <div className="card">
                 <div className="card-header">
                   <h3>Your Addresses</h3>

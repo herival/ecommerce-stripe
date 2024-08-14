@@ -27,7 +27,7 @@ const Cart: FC<CartProps> = () => {
 
   const dispatch = useDispatch()
   const cart = useSelector(getCart)
-  const carrier = useSelector(getCarrier)
+  let carrier = useSelector(getCarrier)
   const [carriers, setCarriers] = useState<Carrier[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -37,6 +37,14 @@ const Cart: FC<CartProps> = () => {
       const data: RequestResponse = await getDatas('carrier')
       if(data.isSuccess){
         setCarriers((data.results as Carrier[]))
+        if(!carrier && data?.results![0]){
+          dispatch({
+            type: ADD_TO_STORAGE,
+            key: "carrier",
+            unique: true,
+            payload: data.results[0]
+          })
+        }
         setLoading(false)
       }
     }
@@ -160,7 +168,7 @@ const Cart: FC<CartProps> = () => {
                   <div className="select-carrier">
                     <select name="carrier" className='form-control'
                     onChange={handleChangeCarrier}
-                    value={carrier._id}
+                    value={carrier ? carrier._id : null}
                     >
                       <option disabled={true}>Select your carrier ...</option>
                       {
@@ -187,14 +195,19 @@ const Cart: FC<CartProps> = () => {
                           <td className="cart_total_label">Cart Subtotal</td>
                           <td className="cart_total_amount">{formatPrice(cart.sub_total)}</td>
                         </tr>
-                        <tr >
-                          <td className="cart_total_label">Shipping ({carrier.name})</td>
-                          <td className="cart_total_amount">{formatPrice(carrier.price)}</td>
-                        </tr>
+                        {
+                          carrier ?
+                            <tr >
+                              <td className="cart_total_label">Shipping ({carrier?.name})</td>
+                              <td className="cart_total_amount">{formatPrice(carrier?.price)}</td>
+                            </tr>
+                          :
+                          null
+                        }
                         <tr >
                           <td className="cart_total_label">Total</td>
                           <td className="cart_total_amount"><strong
-                          >{formatPrice(cart.sub_total + carrier.price)}</strong></td>
+                          >{formatPrice(cart.sub_total + (carrier?.price || 0))}</strong></td>
                         </tr>
                       </tbody>
                     </table>

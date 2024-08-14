@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { CONNECTED } from '../../redux/actions/actionTypes';
 import { useSelector } from 'react-redux';
 import { getAuthState } from '../../redux/selectors/selectors';
+import { getItem, removeItem } from '../../services/localsorage.service';
 
 
 interface SigninProps {
@@ -73,10 +74,20 @@ const Signin: FC<SigninProps> = () => {
 
 
   if(redirect){
+    let pathname = getItem("pathname")
+    if(pathname){
+      removeItem("pathname")
+      return <Navigate to={pathname} />
+    }
     return <Navigate to="/account" />
   }
   
   if(isAuth){
+    let pathname = getItem("pathname")
+    if(pathname){
+      removeItem("pathname")
+      return <Navigate to={pathname} />
+    }
     return <Navigate to="/account" />
   }
 

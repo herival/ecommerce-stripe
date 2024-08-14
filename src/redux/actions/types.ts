@@ -1,6 +1,6 @@
 import { Article } from '../../models/article';
 import { Product } from '../../models/product';
-import { ADD_NOTIFICATION, ADD_TO_CART, ADD_TO_STORAGE, CLEAR_NOTIFICATIONS, CONNECTED, LOGOUT, REMOVE_FROM_CART, REMOVE_FROM_STORAGE, REMOVE_NOTIFICATION_ITEM } from './actionTypes';
+import { ADD_NOTIFICATION, ADD_TO_CART, ADD_TO_STORAGE, CLEAR_CART, CLEAR_NOTIFICATIONS, CONNECTED, LOGOUT, REMOVE_FROM_CART, REMOVE_FROM_STORAGE, REMOVE_NOTIFICATION_ITEM } from './actionTypes';
 
 interface userConnectedData {
     token: string
@@ -23,7 +23,7 @@ export interface AuthAction {
 }
 
 export interface CartAction {
-    type: typeof ADD_TO_CART | typeof REMOVE_FROM_CART | null,
+    type: typeof ADD_TO_CART | typeof REMOVE_FROM_CART| typeof CLEAR_CART | null,
     payload: CartData | null
 }
 

@@ -18,3 +18,11 @@ export const getCompareList = (state: GlobalState) => state.storage.comparelists
 export const getSuscribed = (state: GlobalState) => state.storage?.isSuscribed 
 
 export const getCarrier = (state: GlobalState) => state.storage?.carrier 
+
+export const getCurrentAddress = (state: GlobalState) => state.storage?.currentAddress
+
+export const getCartSubTotal = (state: GlobalState) => {
+
+    const cartSubTotal = state.cart.sub_total + (state?.storage?.carrier?.price || 0)
+    return cartSubTotal
+}

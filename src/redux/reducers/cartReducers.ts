@@ -1,7 +1,7 @@
 import { sonoreEffet } from '../../helpers/utils';
 import { Article } from '../../models/article';
 import { getItem, setItem } from '../../services/localsorage.service';
-import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions/actionTypes';
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART } from '../actions/actionTypes';
 import { CartAction, CartGlobalState } from '../actions/types';
 
 
@@ -59,6 +59,9 @@ export const cartReducers = (state=initCart, action: CartAction={type:null, payl
             setItem('cart', state)
             return {...state}
             break;
+        case CLEAR_CART:
+            setItem('cart', initCart)
+            return {...initCart}
         default:
             return state
             break;

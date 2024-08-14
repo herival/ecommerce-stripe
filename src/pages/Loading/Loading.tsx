@@ -18,7 +18,7 @@ const Loading : FC<LoadingProps> = () =>{
   return (
     <Fragment>
       <div className="Loading">
-          Loading Component
+      <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
       </div>
     </Fragment>
   );
